@@ -1,13 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
-import { 
-  Drawer, 
-  List, 
-  ListItem, 
-  ListItemIcon, 
+import {
+  Drawer,
+  List,
+  ListItemIcon,
   ListItemText,
   IconButton,
-  Divider
+  Divider,
+  ListItem,
+  ListItemProps,
 } from '@mui/material';
 import {
   Person as PersonIcon,
@@ -16,14 +17,15 @@ import {
   Help as HelpIcon,
   Menu as MenuIcon,
   Close as CloseIcon,
-  Groups as GroupsIcon
+  Groups as GroupsIcon,
 } from '@mui/icons-material';
 import { useRouter } from 'next/router';
 import { colorPalette } from '../styles/colors';
-import { ListItemProps } from '@mui/material/ListItem';
+
+// --- Styled Components ---
 
 const MenuButton = styled(IconButton)`
-  color: #FFD700 !important;
+  color: #ffd700 !important;
   margin-right: 16px !important;
 `;
 
@@ -44,10 +46,17 @@ const StyledDrawer = styled(Drawer)`
   }
 `;
 
-// ✅ Wrap ListItem with props support
-const StyledListItem = styled((props: ListItemProps) => (
-  <ListItem {...props} />
-))`
+const StyledDivider = styled(Divider)`
+  margin: 16px !important;
+  background-color: rgba(255, 215, 0, 0.2) !important;
+`;
+
+// ✅ Correctly typed StyledListItem with forwardRef
+const StyledListItem = styled(
+  React.forwardRef<HTMLDivElement, ListItemProps>(function StyledListItem(props, ref) {
+    return <ListItem ref={ref} {...props} />;
+  })
+)`
   margin: 8px 16px !important;
   border-radius: 8px !important;
   transition: all 0.3s ease !important;
@@ -57,7 +66,7 @@ const StyledListItem = styled((props: ListItemProps) => (
   }
 
   .MuiListItemIcon-root {
-    color: #FFD700 !important;
+    color: #ffd700 !important;
     min-width: 40px !important;
   }
 
@@ -66,10 +75,7 @@ const StyledListItem = styled((props: ListItemProps) => (
   }
 `;
 
-const StyledDivider = styled(Divider)`
-  margin: 16px !important;
-  background-color: rgba(255, 215, 0, 0.2) !important;
-`;
+// --- Menu Items ---
 
 const menuItems = [
   { text: 'Profile', icon: <PersonIcon />, path: '/profile/edit' },
@@ -79,20 +85,23 @@ const menuItems = [
   { text: 'Help & Support', icon: <HelpIcon />, path: '/support' },
 ];
 
+// --- Component ---
+
 const HamburgerMenu = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   const router = useRouter();
 
-  const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
-    if (
-      event.type === 'keydown' &&
-      ((event as React.KeyboardEvent).key === 'Tab' ||
-        (event as React.KeyboardEvent).key === 'Shift')
-    ) {
-      return;
-    }
-    setIsOpen(open);
-  };
+  const toggleDrawer =
+    (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
+      if (
+        event.type === 'keydown' &&
+        ((event as React.KeyboardEvent).key === 'Tab' ||
+          (event as React.KeyboardEvent).key === 'Shift')
+      ) {
+        return;
+      }
+      setIsOpen(open);
+    };
 
   const handleNavigation = (path: string) => {
     router.push(path);
@@ -101,19 +110,11 @@ const HamburgerMenu = () => {
 
   return (
     <>
-      <MenuButton
-        edge="start"
-        aria-label="menu"
-        onClick={toggleDrawer(true)}
-      >
+      <MenuButton edge="start" aria-label="menu" onClick={toggleDrawer(true)}>
         <MenuIcon />
       </MenuButton>
 
-      <StyledDrawer
-        anchor="left"
-        open={isOpen}
-        onClose={toggleDrawer(false)}
-      >
+      <StyledDrawer anchor="left" open={isOpen} onClose={toggleDrawer(false)}>
         <DrawerHeader>
           <img src="/logo.png" alt="Gingr Logo" height="32" />
           <IconButton onClick={toggleDrawer(false)}>
