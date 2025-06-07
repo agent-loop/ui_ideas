@@ -1,8 +1,10 @@
 import { Typography } from '@cred/neopop-web/lib/components';
 import styled from 'styled-components';
 import { colorPalette } from '../styles/colors';
-// import { FontType } from '@cred/neopop-web/lib/primitives';
 import Image from 'next/image';
+
+// Define FontType locally
+type FontType = 'heading' | 'body';
 
 const MainContainer = styled.div`
   min-height: 100vh;
@@ -142,7 +144,7 @@ export default function Blogs() {
           color={colorPalette.yellow}
           fontSize={48}
           fontWeight={700}
-          fontType="heading"
+          fontType={'heading' as FontType}
           style={{ marginBottom: '20px' }}
         >
           Gingr Blog
@@ -151,7 +153,7 @@ export default function Blogs() {
           color={colorPalette.white}
           fontSize={20}
           fontWeight={400}
-          fontType="body"
+          fontType={'body' as FontType}
           style={{ opacity: 0.9, maxWidth: '600px', margin: '0 auto' }}
         >
           Insights, stories, and tips for building meaningful college connections
@@ -179,7 +181,7 @@ export default function Blogs() {
                 color={colorPalette.white}
                 fontSize={24}
                 fontWeight={600}
-                fontType="heading"
+                fontType={'heading' as FontType}
                 style={{ marginBottom: '10px' }}
               >
                 {blog.title}
@@ -188,7 +190,7 @@ export default function Blogs() {
                 color={colorPalette.white}
                 fontSize={16}
                 fontWeight={400}
-                fontType="body"
+                fontType={'body' as FontType}
                 style={{ opacity: 0.8, marginBottom: '15px' }}
               >
                 {blog.excerpt}
@@ -202,4 +204,4 @@ export default function Blogs() {
       </BlogGrid>
     </MainContainer>
   );
-} 
+}
