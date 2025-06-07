@@ -1,7 +1,24 @@
-import { Typography } from '@cred/neopop-web/lib/components';
+import { Typography as BaseTypography } from '@cred/neopop-web/lib/components';
 import styled from 'styled-components';
 import { colorPalette } from '../styles/colors';
 import Image from 'next/image';
+
+// Define FontType locally to fix missing import error
+type FontType = 'heading' | 'body' | 'caption' | 'subtitle';
+
+// Create a typed wrapper component around BaseTypography
+interface TypographyProps {
+  color?: string;
+  fontSize?: number;
+  fontWeight?: number;
+  fontType: FontType;
+  style?: React.CSSProperties;
+  children: React.ReactNode;
+}
+
+function Typography(props: TypographyProps) {
+  return <BaseTypography {...props} />;
+}
 
 const MainContainer = styled.div`
   min-height: 100vh;
@@ -102,7 +119,7 @@ const blogs = [
     image: "/meaninful.png",
     date: "March 15, 2024",
     readTime: "5 min read",
-    category: "Community"
+    category: "Community",
   },
   {
     id: 2,
@@ -111,7 +128,7 @@ const blogs = [
     image: "/secured.png",
     date: "March 12, 2024",
     readTime: "4 min read",
-    category: "Privacy & Security"
+    category: "Privacy & Security",
   },
   {
     id: 3,
@@ -120,7 +137,7 @@ const blogs = [
     image: "/interest_based.png",
     date: "March 10, 2024",
     readTime: "6 min read",
-    category: "Features"
+    category: "Features",
   },
   {
     id: 4,
@@ -129,8 +146,8 @@ const blogs = [
     image: "/anym.png",
     date: "March 8, 2024",
     readTime: "4 min read",
-    category: "Privacy & Security"
-  }
+    category: "Privacy & Security",
+  },
 ];
 
 export default function Blogs() {
@@ -141,6 +158,7 @@ export default function Blogs() {
           color={colorPalette.yellow}
           fontSize={48}
           fontWeight={700}
+          fontType="heading"
           style={{ marginBottom: '20px' }}
         >
           Gingr Blog
@@ -149,6 +167,7 @@ export default function Blogs() {
           color={colorPalette.white}
           fontSize={20}
           fontWeight={400}
+          fontType="body"
           style={{ opacity: 0.9, maxWidth: '600px', margin: '0 auto' }}
         >
           Insights, stories, and tips for building meaningful college connections
@@ -176,6 +195,7 @@ export default function Blogs() {
                 color={colorPalette.white}
                 fontSize={24}
                 fontWeight={600}
+                fontType="heading"
                 style={{ marginBottom: '10px' }}
               >
                 {blog.title}
@@ -184,6 +204,7 @@ export default function Blogs() {
                 color={colorPalette.white}
                 fontSize={16}
                 fontWeight={400}
+                fontType="body"
                 style={{ opacity: 0.8, marginBottom: '15px' }}
               >
                 {blog.excerpt}
