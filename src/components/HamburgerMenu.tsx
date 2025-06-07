@@ -53,7 +53,7 @@ const StyledDivider = styled(Divider)`
 
 // ✅ Correctly typed StyledListItem with forwardRef
 const StyledListItem = styled(
-  React.forwardRef<HTMLDivElement, ListItemProps>(function StyledListItem(props, ref) {
+  React.forwardRef<HTMLLIElement, ListItemProps>(function StyledListItem(props, ref) {
     return <ListItem ref={ref} {...props} />;
   })
 )`
