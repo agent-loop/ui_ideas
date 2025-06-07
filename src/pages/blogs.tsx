@@ -1,204 +1,134 @@
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
-import { colorPalette } from '../styles/colors';
 import Image from 'next/image';
+import { colorPalette } from '../../styles/colors';
 
-const MainContainer = styled.div`
+const PageContainer = styled.div`
   min-height: 100vh;
   background: #000;
   color: ${colorPalette.white};
+  padding: 80px 20px;
 `;
 
-const BlogHeader = styled.div`
-  padding: 100px 20px 60px;
-  text-align: center;
-  background: linear-gradient(180deg, rgba(255, 215, 0, 0.1) 0%, rgba(0, 0, 0, 0) 100%);
-`;
-
-const BlogTitle = styled.h1`
+const Title = styled.h1`
   color: ${colorPalette.yellow};
-  font-size: 48px;
-  font-weight: 700;
+  font-size: 40px;
+  text-align: center;
   margin-bottom: 20px;
 `;
 
-const BlogSubtitle = styled.p`
-  color: ${colorPalette.white};
-  font-size: 20px;
-  font-weight: 400;
-  opacity: 0.9;
-  max-width: 600px;
-  margin: 0 auto;
-`;
-
-const BlogGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 40px;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 40px 20px;
-`;
-
-const BlogCategory = styled.span`
-  background: rgba(255, 215, 0, 0.1);
-  color: ${colorPalette.yellow};
-  padding: 4px 12px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 500;
-  margin-bottom: 10px;
-  display: inline-block;
-`;
-
-const BlogCard = styled.article`
-  background: rgba(0, 0, 0, 0.3);
-  border: 2px solid rgba(255, 215, 0, 0.2);
-  border-radius: 20px;
-  overflow: hidden;
-  transition: all 0.3s ease;
-  position: relative;
-  backdrop-filter: blur(10px);
-
-  &:hover {
-    transform: translateY(-10px);
-    border-color: ${colorPalette.yellow};
-    box-shadow: 0 20px 40px rgba(255, 215, 0, 0.1);
-
-    .blog-image {
-      transform: scale(1.1);
-    }
-
-    ${BlogCategory} {
-      background: rgba(255, 215, 0, 0.2);
-    }
-  }
-`;
-
-const BlogImage = styled.div`
-  position: relative;
-  height: 200px;
-  overflow: hidden;
-
-  img {
-    transition: transform 0.3s ease;
-  }
-`;
-
-const BlogContent = styled.div`
-  padding: 20px;
-`;
-
-const BlogDate = styled.div`
-  color: ${colorPalette.yellow};
-  font-size: 14px;
-  margin-bottom: 10px;
-  opacity: 0.8;
-`;
-
-const BlogHeading = styled.h2`
-  color: ${colorPalette.white};
-  font-size: 24px;
-  font-weight: 600;
-  margin-bottom: 10px;
-`;
-
-const BlogExcerpt = styled.p`
-  color: ${colorPalette.white};
+const Meta = styled.div`
+  text-align: center;
   font-size: 16px;
-  font-weight: 400;
-  opacity: 0.8;
-  margin-bottom: 15px;
-`;
-
-const BlogReadMore = styled.a`
-  display: inline-block;
   color: ${colorPalette.yellow};
-  text-decoration: none;
-  margin-top: 15px;
-  font-weight: 500;
-  transition: all 0.3s ease;
-
-  &:hover {
-    opacity: 0.8;
-    transform: translateX(5px);
-  }
+  opacity: 0.8;
+  margin-bottom: 40px;
 `;
 
-const blogs = [
-  {
-    id: 1,
+const ImageWrapper = styled.div`
+  max-width: 800px;
+  margin: 0 auto 40px;
+  position: relative;
+  height: 300px;
+`;
+
+const Content = styled.div`
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.8;
+  font-size: 18px;
+`;
+
+const blogPosts: Record<number, {
+  title: string;
+  excerpt: string;
+  image: string;
+  date: string;
+  readTime: string;
+  category: string;
+  content: string[];
+}> = {
+  1: {
     title: "Building Meaningful Connections in the Digital Age",
-    excerpt: "Discover how college students are leveraging technology to create lasting friendships and professional networks in today's digital world.",
+    excerpt: "Discover how college students create lasting friendships using technology.",
     image: "/meaninful.png",
     date: "March 15, 2024",
     readTime: "5 min read",
-    category: "Community"
+    category: "Community",
+    content: [
+      "College life is a unique phase where lasting friendships are often made.",
+      "In today's digital age, students are leveraging platforms to build communities based on shared interests and values.",
+      "These connections help students feel less isolated, especially in large campuses or during remote learning periods."
+    ]
   },
-  {
-    id: 2,
+  2: {
     title: "Privacy First: The Future of Social Networking",
-    excerpt: "Why privacy-focused platforms are becoming increasingly important for students and how Gingr is leading the charge.",
+    excerpt: "How Gingr is leading the charge in privacy-focused networking.",
     image: "/secured.png",
     date: "March 12, 2024",
     readTime: "4 min read",
-    category: "Privacy & Security"
+    category: "Privacy & Security",
+    content: [
+      "In the digital era, privacy is not a luxury, it's a necessity.",
+      "Students are becoming more aware of the data they share online and are seeking platforms that prioritize security.",
+      "Gingr has built its platform with privacy at the core, offering users complete control over their interactions."
+    ]
   },
-  {
-    id: 3,
+  3: {
     title: "Finding Your Tribe: Interest-Based Communities",
-    excerpt: "How to connect with like-minded students and build communities around shared interests and academic goals.",
+    excerpt: "How to build communities around shared academic and social interests.",
     image: "/interest_based.png",
     date: "March 10, 2024",
     readTime: "6 min read",
-    category: "Features"
+    category: "Features",
+    content: [
+      "Being part of an interest-based community helps students engage deeply with topics they care about.",
+      "These communities foster collaboration, idea exchange, and support networks that extend beyond the classroom.",
+      "Gingr enables the creation of such spaces where students can thrive socially and intellectually."
+    ]
   },
-  {
-    id: 4,
+  4: {
     title: "The Power of Anonymous Expression",
-    excerpt: "Understanding the benefits of anonymous communication in fostering open discussions and authentic connections.",
+    excerpt: "How anonymity can encourage honest and vulnerable conversations.",
     image: "/anym.png",
     date: "March 8, 2024",
     readTime: "4 min read",
-    category: "Privacy & Security"
+    category: "Privacy & Security",
+    content: [
+      "Sometimes, the best way to speak your truth is without a name attached.",
+      "Anonymous platforms give users the freedom to express themselves without fear of judgment.",
+      "This approach creates a safe space for sensitive topics, mental health discussions, and genuine peer support."
+    ]
   }
-];
+};
 
-export default function Blogs() {
+export default function BlogPostPage() {
+  const router = useRouter();
+  const { id } = router.query;
+
+  const post = blogPosts[Number(id)];
+
+  if (!post) return <PageContainer><Title>Blog not found</Title></PageContainer>;
+
   return (
-    <MainContainer>
-      <BlogHeader>
-        <BlogTitle>Gingr Blog</BlogTitle>
-        <BlogSubtitle>
-          Insights, stories, and tips for building meaningful college connections
-        </BlogSubtitle>
-      </BlogHeader>
-
-      <BlogGrid>
-        {blogs.map(blog => (
-          <BlogCard key={blog.id}>
-            <BlogImage>
-              <Image
-                src={blog.image}
-                alt={blog.title}
-                fill
-                style={{ objectFit: 'cover' }}
-                className="blog-image"
-              />
-            </BlogImage>
-            <BlogContent>
-              <BlogDate>
-                {blog.date} · {blog.readTime}
-              </BlogDate>
-              <BlogCategory>{blog.category}</BlogCategory>
-              <BlogHeading>{blog.title}</BlogHeading>
-              <BlogExcerpt>{blog.excerpt}</BlogExcerpt>
-              <BlogReadMore href={`/blogs/${blog.id}`}>
-                Read More →
-              </BlogReadMore>
-            </BlogContent>
-          </BlogCard>
+    <PageContainer>
+      <Title>{post.title}</Title>
+      <Meta>
+        {post.date} · {post.readTime} · {post.category}
+      </Meta>
+      <ImageWrapper>
+        <Image
+          src={post.image}
+          alt={post.title}
+          layout="fill"
+          objectFit="cover"
+        />
+      </ImageWrapper>
+      <Content>
+        {post.content.map((paragraph, index) => (
+          <p key={index}>{paragraph}</p>
         ))}
-      </BlogGrid>
-    </MainContainer>
+      </Content>
+    </PageContainer>
   );
 }
