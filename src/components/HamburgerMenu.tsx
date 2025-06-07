@@ -20,6 +20,7 @@ import {
 } from '@mui/icons-material';
 import { useRouter } from 'next/router';
 import { colorPalette } from '../styles/colors';
+import { ListItemProps } from '@mui/material/ListItem';
 
 const MenuButton = styled(IconButton)`
   color: #FFD700 !important;
@@ -43,7 +44,10 @@ const StyledDrawer = styled(Drawer)`
   }
 `;
 
-const StyledListItem = styled(ListItem)`
+// ✅ Wrap ListItem with props support
+const StyledListItem = styled((props: ListItemProps) => (
+  <ListItem {...props} />
+))`
   margin: 8px 16px !important;
   border-radius: 8px !important;
   transition: all 0.3s ease !important;
@@ -136,4 +140,4 @@ const HamburgerMenu = () => {
   );
 };
 
-export default HamburgerMenu; 
+export default HamburgerMenu;
