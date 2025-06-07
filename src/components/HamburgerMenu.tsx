@@ -1,6 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Drawer, List, IconButton, Divider } from '@mui/material';
+import { 
+  Drawer, 
+  List, 
+  ListItemIcon,       // <-- Add this
+  ListItemText,       // <-- And this
+  IconButton, 
+  Divider 
+} from '@mui/material';
+import ListItemButton from '@mui/material/ListItemButton'; // <-- ListItemButton import
 import {
   Person as PersonIcon,
   Settings as SettingsIcon,
@@ -12,7 +20,6 @@ import {
 } from '@mui/icons-material';
 import { useRouter } from 'next/router';
 import { colorPalette } from '../styles/colors';
-import ListItemButton from '@mui/material/ListItemButton'; // Import ListItemButton
 
 const MenuButton = styled(IconButton)`
   color: #FFD700 !important;
