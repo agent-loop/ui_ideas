@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import Image from 'next/image';
-import { colorPalette } from '../../styles/colors';
+import { colorPalette } from 'styles/colors';
 
 const PageContainer = styled.div`
   min-height: 100vh;
