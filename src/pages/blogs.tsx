@@ -1,7 +1,7 @@
 import { Typography } from '@cred/neopop-web/lib/components';
 import styled from 'styled-components';
 import { colorPalette } from '../styles/colors';
-import { FontType } from '@cred/neopop-web/lib/primitives';
+// import { FontType } from '@cred/neopop-web/lib/primitives';
 import Image from 'next/image';
 
 const MainContainer = styled.div`
